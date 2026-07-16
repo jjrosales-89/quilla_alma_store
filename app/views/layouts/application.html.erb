@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Quilla Alma Store" %></title>
+    <title><%= content_for(:title) || "Quilla Alma" %></title>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <%= link_to "Quilla Alma", root_path, class: "brand" %>
+
+        <nav aria-label="Main navigation">
+          <%= link_to "Products", products_path %>
+          <%= link_to "Admin", admin_root_path %>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <%= yield %>
+    </main>
+
+    <footer class="site-footer">
+      <p>Quilla Alma — Ecuadorian-inspired goods in Winnipeg.</p>
+    </footer>
   </body>
 </html>

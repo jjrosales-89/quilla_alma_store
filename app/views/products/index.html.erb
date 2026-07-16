@@ -1,0 +1,33 @@
+<% content_for :title, "Quilla Alma | Ecuadorian-Inspired Goods" %>
+
+<section class="hero">
+  <div class="hero__content">
+    <p class="eyebrow">Ecuadorian-inspired goods in Winnipeg</p>
+
+    <h1>Craft, flavour, and tradition</h1>
+
+    <p>
+      Explore artisan coffee, chocolate, textiles, decor, crafts,
+      and thoughtfully curated gifts.
+    </p>
+  </div>
+</section>
+
+<section class="catalog">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Our collection</p>
+      <h2>Available products</h2>
+    </div>
+
+    <p><%= pluralize(@products.count, "product") %></p>
+  </div>
+
+  <% if @products.any? %>
+    <div class="product-grid">
+      <%= render @products %>
+    </div>
+  <% else %>
+    <p>No products are currently available.</p>
+  <% end %>
+</section>
