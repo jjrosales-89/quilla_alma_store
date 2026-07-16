@@ -24,6 +24,9 @@ class Product < ApplicationRecord
               greater_than_or_equal_to: 0
             }
 
+  # Ensure the boolean field always contains a valid true or false value.
+  validates :on_sale, inclusion: { in: [true, false] }
+
   validates :sale_price,
             numericality: { greater_than: 0 },
             allow_nil: true
