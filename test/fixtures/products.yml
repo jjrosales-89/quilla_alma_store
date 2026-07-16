@@ -1,19 +1,17 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  category: one
-  name: MyString
-  description: MyText
-  price: 9.99
-  stock_quantity: 1
+coffee:
+  category: coffee
+  name: Test Ecuadorian Coffee
+  description: Medium-roast coffee used for automated testing.
+  price: 18.95
+  stock_quantity: 10
   on_sale: false
-  sale_price: 9.99
+  sale_price:
 
-two:
-  category: two
-  name: MyString
-  description: MyText
-  price: 9.99
-  stock_quantity: 1
-  on_sale: false
-  sale_price: 9.99
+throw:
+  category: textiles
+  name: Test Woven Throw
+  description: Handmade woven throw used for automated testing.
+  price: 50.00
+  stock_quantity: 4
+  on_sale: true
+  sale_price: 42.00

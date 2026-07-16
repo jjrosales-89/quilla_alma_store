@@ -1,9 +1,7 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+coffee_gift:
+  product: coffee
+  tag: gift
 
-one:
-  product: one
-  tag: one
-
-two:
-  product: two
-  tag: two
+throw_handmade:
+  product: throw
+  tag: handmade
