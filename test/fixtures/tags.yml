@@ -1,7 +1,5 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+gift:
+  name: Gift
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+handmade:
+  name: Handmade

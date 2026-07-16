@@ -1,0 +1,48 @@
+<% content_for :title, "#{@product.name} | Quilla Alma" %>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <%= link_to "Home", root_path %>
+  <span aria-hidden="true">/</span>
+  <span><%= @product.name %></span>
+</nav>
+
+<article class="product-detail">
+  <div class="product-detail__content">
+    <p class="eyebrow"><%= @product.category.name %></p>
+
+    <h1><%= @product.name %></h1>
+
+    <p class="product-detail__description">
+      <%= @product.description %>
+    </p>
+
+    <div class="product-detail__price">
+      <% if @product.on_sale? %>
+        <span class="original-price">
+          <%= number_to_currency(@product.price) %>
+        </span>
+
+        <span class="sale-price">
+          <%= number_to_currency(@product.sale_price) %>
+        </span>
+      <% else %>
+        <span><%= number_to_currency(@product.price) %></span>
+      <% end %>
+    </div>
+
+    <p>
+      <strong>Availability:</strong>
+      <%= pluralize(@product.stock_quantity, "item") %> in stock
+    </p>
+
+    <% if @product.tags.any? %>
+      <div class="tag-list">
+        <% @product.tags.order(:name).each do |tag| %>
+          <span class="tag"><%= tag.name %></span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= link_to "Back to all products", products_path, class: "button button--secondary" %>
+  </div>
+</article>

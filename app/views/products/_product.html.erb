@@ -1,0 +1,33 @@
+<article class="product-card">
+  <div class="product-card__content">
+    <p class="product-card__category"><%= product.category.name %></p>
+
+    <h2>
+      <%= link_to product.name, product_path(product) %>
+    </h2>
+
+    <p class="product-card__description">
+      <%= truncate(product.description, length: 120) %>
+    </p>
+
+    <div class="product-card__price">
+      <% if product.on_sale? %>
+        <span class="original-price">
+          <%= number_to_currency(product.price) %>
+        </span>
+
+        <span class="sale-price">
+          <%= number_to_currency(product.sale_price) %>
+        </span>
+      <% else %>
+        <span><%= number_to_currency(product.price) %></span>
+      <% end %>
+    </div>
+
+    <p class="product-card__stock">
+      <%= pluralize(product.stock_quantity, "item") %> available
+    </p>
+
+    <%= link_to "View product", product_path(product), class: "button" %>
+  </div>
+</article>
