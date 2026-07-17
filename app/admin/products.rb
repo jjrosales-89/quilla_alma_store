@@ -7,6 +7,7 @@ ActiveAdmin.register Product do
     :stock_quantity,
     :on_sale,
     :sale_price,
+    :image,
     tag_ids: []
   )
 
@@ -16,6 +17,15 @@ ActiveAdmin.register Product do
     selectable_column
     id_column
     column :name
+
+    column "Image" do |product|
+      if product.image.attached?
+        image_tag url_for(product.image), width: 70, alt: product.name
+      else
+        "No image"
+      end
+    end
+
     column :category
 
     column :price do |product|
@@ -38,6 +48,14 @@ ActiveAdmin.register Product do
       row :name
       row :category
       row :description
+
+      row :image do |product|
+        if product.image.attached?
+          image_tag url_for(product.image), width: 300, alt: product.name
+        else
+          "No image uploaded"
+        end
+      end
 
       row :price do |product|
         number_to_currency(product.price)
@@ -71,6 +89,17 @@ ActiveAdmin.register Product do
 
       f.input :name
       f.input :description
+
+      f.input(
+        :image,
+        as: :file,
+        hint: if f.object.image.attached?
+                image_tag(url_for(f.object.image), width: 200, alt: f.object.name)
+              else
+                "Upload a JPEG, PNG, or WebP image smaller than 5 MB."
+              end
+      )
+
       # Explicit limits prevent Formtastic from guessing decimal minimum values.
       f.input :price, min: 0.01, step: 0.01
       f.input :stock_quantity, min: 0, step: 1
