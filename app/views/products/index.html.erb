@@ -23,6 +23,36 @@
     <p><%= pluralize(@products.total_count, "product") %></p>
   </div>
 
+  <%= form_with url: products_path, method: :get, local: true, class: "catalog-filters" do |form| %>
+    <div>
+      <%= form.label :query, "Search products" %>
+      <%= form.search_field :query,
+                            value: params[:query],
+                            placeholder: "Search by name or description" %>
+    </div>
+
+    <div>
+      <%= form.label :category_id, "Category" %>
+      <%= form.collection_select :category_id,
+                                @categories,
+                                :id,
+                                :name,
+                                { include_blank: "All categories",
+                                  selected: params[:category_id] } %>
+    </div>
+
+    <div>
+      <%= form.check_box :on_sale,
+                        { checked: params[:on_sale] == "1" },
+                        "1",
+                        "0" %>
+      <%= form.label :on_sale, "On sale only" %>
+    </div>
+
+    <%= form.submit "Search and filter" %>
+    <%= link_to "Clear filters", products_path %>
+  <% end %>
+
   <% if @products.any? %>
     <div class="product-grid">
       <%= render @products %>
