@@ -1,0 +1,30 @@
+<% content_for :title, "#{@category.name} | Quilla Alma" %>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <%= link_to "Home", root_path %>
+  <span aria-hidden="true">/</span>
+  <%= link_to "Categories", categories_path %>
+  <span aria-hidden="true">/</span>
+  <span><%= @category.name %></span>
+</nav>
+
+<section class="catalog">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Product category</p>
+      <h1><%= @category.name %></h1>
+    </div>
+
+    <p><%= pluralize(@products.total_count, "product") %></p>
+  </div>
+
+  <% if @products.any? %>
+    <div class="product-grid">
+      <%= render @products %>
+    </div>
+
+    <%= paginate @products %>
+  <% else %>
+    <p>No products are currently available in this category.</p>
+  <% end %>
+</section>
