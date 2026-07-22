@@ -20,13 +20,15 @@
       <h2>Available products</h2>
     </div>
 
-    <p><%= pluralize(@products.count, "product") %></p>
+    <p><%= pluralize(@products.total_count, "product") %></p>
   </div>
 
   <% if @products.any? %>
     <div class="product-grid">
       <%= render @products %>
     </div>
+
+    <%= paginate @products %>
   <% else %>
     <p>No products are currently available.</p>
   <% end %>
