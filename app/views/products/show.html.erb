@@ -7,6 +7,17 @@
 </nav>
 
 <article class="product-detail">
+
+<% if @product.image.attached? %>
+  <div class="product-detail__image-wrapper">
+    <%= image_tag(
+          @product.image.variant(resize_to_limit: [800, 600]),
+          class: "product-detail__image",
+          alt: @product.name
+        ) %>
+  </div>
+<% end %>
+
   <div class="product-detail__content">
     <p class="eyebrow"><%= @product.category.name %></p>
 

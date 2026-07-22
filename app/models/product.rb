@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :category
+  has_one_attached :image
 
   has_many :product_tags,
            dependent: :destroy,
@@ -33,7 +34,23 @@ class Product < ApplicationRecord
 
   validate :sale_price_requirements
 
+  validate :acceptable_image
+
   private
+
+    def acceptable_image
+    return unless image.attached?
+
+    allowed_types = %w[image/jpeg image/png image/webp]
+
+    unless image.blob.content_type.in?(allowed_types)
+      errors.add(:image, "must be a JPEG, PNG, or WebP file")
+    end
+
+    if image.blob.byte_size > 5.megabytes
+      errors.add(:image, "must be smaller than 5 MB")
+  end
+end
 
   def sale_price_requirements
     if on_sale? && sale_price.blank?

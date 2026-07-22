@@ -1,4 +1,16 @@
 <article class="product-card">
+
+<% if product.image.attached? %>
+  <%= link_to product_path(product), class: "product-card__image-link" do %>
+    <%= image_tag(
+          product.image.variant(resize_to_fill: [360, 240]),
+          class: "product-card__image",
+          alt: product.name,
+          loading: "lazy"
+        ) %>
+  <% end %>
+<% end %>
+
   <div class="product-card__content">
     <p class="product-card__category"><%= product.category.name %></p>
 
