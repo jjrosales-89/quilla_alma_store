@@ -23,6 +23,10 @@ class ProductsController < ApplicationController
       @products = @products.where(on_sale: true)
     end
 
+    if params[:new_products] == "1"
+      @products = @products.where(created_at: 3.days.ago..)
+    end
+
     @products = @products.page(params[:page]).per(8)
   end
 

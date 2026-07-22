@@ -49,6 +49,14 @@
       <%= form.label :on_sale, "On sale only" %>
     </div>
 
+    <div>
+      <%= form.check_box :new_products,
+                        { checked: params[:new_products] == "1" },
+                        "1",
+                        "0" %>
+      <%= form.label :new_products, "New products only" %>
+    </div>
+
     <%= form.submit "Search and filter" %>
     <%= link_to "Clear filters", products_path %>
   <% end %>
