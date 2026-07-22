@@ -90,15 +90,19 @@ ActiveAdmin.register Product do
       f.input :name
       f.input :description
 
-      f.input(
-        :image,
-        as: :file,
-        hint: if f.object.image.attached?
-                image_tag(url_for(f.object.image), width: 200, alt: f.object.name)
-              else
-                "Upload a JPEG, PNG, or WebP image smaller than 5 MB."
-              end
-      )
+    # This prevents Rails from generating a URL for an image blob that has not yet been saved.
+    image_hint =
+      if f.object.image.attached? && f.object.image.blob.persisted?
+        image_tag(
+          url_for(f.object.image),
+          width: 200,
+          alt: f.object.name
+        )
+      else
+        "Upload a JPEG, PNG, or WebP image smaller than 5 MB."
+      end
+
+    f.input :image, as: :file, hint: image_hint
 
       # Explicit limits prevent Formtastic from guessing decimal minimum values.
       f.input :price, min: 0.01, step: 0.01
