@@ -1,0 +1,28 @@
+<% content_for :title, "Categories | Quilla Alma" %>
+
+<section class="catalog">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Explore the collection</p>
+      <h1>Product categories</h1>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <% @categories.each do |category| %>
+      <article class="product-card">
+        <div class="product-card__content">
+          <h2><%= category.name %></h2>
+
+          <p class="product-card__description">
+            <%= pluralize(category.products.size, "product") %>
+          </p>
+
+          <%= link_to "Browse category",
+                      category_path(category),
+                      class: "button" %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</section>
