@@ -1,7 +1,11 @@
 class ProductsController < ApplicationController
   def index
-    # Load associations once for efficient product-card rendering.
-    @products = Product.includes(:category, :tags).order(:name)
+    # Load associations once and display eight products per page.
+    @products = Product
+      .includes(:category, :tags)
+      .order(:name)
+      .page(params[:page])
+      .per(8)
   end
 
   def show
