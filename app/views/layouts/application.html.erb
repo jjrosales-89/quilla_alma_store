@@ -22,12 +22,26 @@
         <nav aria-label="Main navigation">
           <%= link_to "Products", products_path %>
           <%= link_to "Categories", categories_path %>
+          <%= link_to "Cart (#{cart_item_count})", cart_path %>
           <%= link_to "Admin", admin_root_path %>
         </nav>
       </div>
     </header>
 
     <main class="site-main">
+      <%# Displays feedback after cart actions. %>
+      <% if notice.present? %>
+        <div class="flash flash--notice" role="status">
+          <%= notice %>
+        </div>
+      <% end %>
+
+      <% if alert.present? %>
+        <div class="flash flash--alert" role="alert">
+          <%= alert %>
+        </div>
+      <% end %>
+
       <%= yield %>
     </main>
 
