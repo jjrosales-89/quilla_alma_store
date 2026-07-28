@@ -1,0 +1,110 @@
+<% content_for :title, "Shopping Cart | Quilla Alma" %>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <%= link_to "Home", root_path %>
+  <span aria-hidden="true">/</span>
+  <span>Shopping Cart</span>
+</nav>
+
+<section class="cart">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Your selection</p>
+      <h1>Shopping Cart</h1>
+    </div>
+
+    <p><%= pluralize(cart_item_count, "item") %></p>
+  </div>
+
+  <% if @cart_items.any? %>
+    <div class="cart-items">
+      <% @cart_items.each do |item| %>
+        <% product = item[:product] %>
+        <% quantity = item[:quantity] %>
+
+        <%# Uses the sale price when the product is discounted. %>
+        <% unit_price = product.on_sale? ? product.sale_price : product.price %>
+
+        <article class="cart-item">
+          <% if product.image.attached? %>
+            <%= link_to product_path(product) do %>
+              <%= image_tag(
+                    product.image.variant(resize_to_fill: [180, 140]),
+                    class: "cart-item__image",
+                    alt: product.name
+                  ) %>
+            <% end %>
+          <% end %>
+
+          <div class="cart-item__details">
+            <p class="eyebrow"><%= product.category.name %></p>
+
+            <h2>
+              <%= link_to product.name, product_path(product) %>
+            </h2>
+
+            <p>
+              Unit price:
+              <strong><%= number_to_currency(unit_price) %></strong>
+            </p>
+
+            <p>
+              Item subtotal:
+              <strong>
+                <%= number_to_currency(unit_price * quantity) %>
+              </strong>
+            </p>
+          </div>
+
+          <div class="cart-item__actions">
+            <%= form_with url: update_cart_item_path(product),
+                          method: :patch,
+                          local: true,
+                          class: "cart-item__update-form" do |form| %>
+              <div>
+                <%= form.label :quantity, "Quantity" %>
+
+                <%= form.number_field :quantity,
+                                      value: quantity,
+                                      min: 1,
+                                      max: product.stock_quantity,
+                                      class: "quantity-field" %>
+              </div>
+
+              <%= form.submit "Update", class: "button" %>
+            <% end %>
+
+            <%= button_to "Remove",
+                          remove_cart_item_path(product),
+                          method: :delete,
+                          class: "button button--danger",
+                          form_class: "cart-item__remove-form" %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+
+    <%# Calculates the complete cart total from current product prices. %>
+    <% cart_total = @cart_items.sum do |item| %>
+      <% product = item[:product] %>
+      <% unit_price = product.on_sale? ? product.sale_price : product.price %>
+      <% unit_price * item[:quantity] %>
+    <% end %>
+
+    <div class="cart-summary">
+      <p>Estimated total</p>
+      <strong><%= number_to_currency(cart_total) %></strong>
+    </div>
+  <% else %>
+    <div class="empty-cart">
+      <h2>Your cart is empty</h2>
+
+      <p>
+        Explore our collection of Ecuadorian-inspired products and
+        add something to your cart.
+      </p>
+
+      <%= link_to "Browse products", products_path, class: "button" %>
+    </div>
+  <% end %>
+</section>

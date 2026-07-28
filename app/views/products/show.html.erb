@@ -46,6 +46,27 @@
       <%= pluralize(@product.stock_quantity, "item") %> in stock
     </p>
 
+    <% if @product.stock_quantity.positive? %>
+      <%= form_with url: add_cart_item_path(@product),
+                    method: :post,
+                    local: true,
+                    class: "add-to-cart-form" do |form| %>
+        <div>
+          <%= form.label :quantity, "Quantity" %>
+
+          <%= form.number_field :quantity,
+                                value: 1,
+                                min: 1,
+                                max: @product.stock_quantity,
+                                class: "quantity-field" %>
+        </div>
+
+        <%= form.submit "Add to cart", class: "button" %>
+      <% end %>
+    <% else %>
+      <p class="out-of-stock">This product is currently out of stock.</p>
+    <% end %>
+
     <% if @product.tags.any? %>
       <div class="tag-list">
         <% @product.tags.order(:name).each do |tag| %>
