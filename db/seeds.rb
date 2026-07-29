@@ -157,6 +157,200 @@ products.each do |attributes|
   product.tags = Tag.where(name: attributes[:tags])
 end
 
+# Creates 90 additional products across all six storefront categories.
+locations = [
+  "Quito",
+  "Loja",
+  "Cuenca",
+  "Otavalo",
+  "Mindo",
+  "Baños",
+  "Cotopaxi",
+  "Chimborazo",
+  "Galápagos",
+  "Manabí",
+  "Esmeraldas",
+  "Riobamba",
+  "Vilcabamba",
+  "Imbabura",
+  "Yasuní"
+]
+
+catalog_blueprints = {
+  "Coffee" => {
+    products: [
+      "Cloud Forest Medium Roast",
+      "Highland Espresso Beans",
+      "Honey Process Coffee",
+      "Volcanic Dark Roast",
+      "Mountain Decaf Coffee",
+      "Citrus Bloom Light Roast",
+      "Cacao Finish Coffee",
+      "Caramel Reserve Coffee",
+      "Organic Breakfast Roast",
+      "Single-Origin Coffee",
+      "Washed Arabica Coffee",
+      "Artisan Ground Coffee",
+      "Cold Brew Coffee Blend",
+      "Limited Harvest Coffee",
+      "Heritage Coffee Beans"
+    ],
+    description: "Ecuadorian coffee with a balanced aroma and distinctive regional character.",
+    base_price: 17.50,
+    price_step: 0.85,
+    tags: ["Fair Trade", "Coffee Lover", "Gift", "New Arrival"]
+  },
+  "Chocolate" => {
+    products: [
+      "Sea Salt Cacao Bar",
+      "Dark Chocolate Truffles",
+      "Cacao Caramel Bites",
+      "Orange Cacao Bar",
+      "Coffee Chocolate Bar",
+      "Cacao Drinking Chocolate",
+      "Roasted Nib Chocolate",
+      "Coconut Cacao Squares",
+      "Almond Dark Chocolate",
+      "Cinnamon Cacao Bar",
+      "Cacao Fruit Bonbons",
+      "Dark Chocolate Medallions",
+      "Cacao Hazelnut Bites",
+      "Limited Harvest Chocolate",
+      "Artisan Chocolate Selection"
+    ],
+    description: "Small-batch chocolate made with Ecuadorian cacao and carefully selected ingredients.",
+    base_price: 8.25,
+    price_step: 0.70,
+    tags: ["Handmade", "Fair Trade", "Gift", "Limited Edition"]
+  },
+  "Textiles" => {
+    products: [
+      "Woven Cushion Cover",
+      "Alpaca Blend Scarf",
+      "Geometric Table Runner",
+      "Artisan Market Tote",
+      "Highland Woven Blanket",
+      "Embroidered Wall Textile",
+      "Traditional Pattern Shawl",
+      "Handwoven Placemat Set",
+      "Colourful Loom Scarf",
+      "Andean Cushion Set",
+      "Woven Laptop Sleeve",
+      "Artisan Fabric Pouch",
+      "Decorative Bed Runner",
+      "Limited Weave Throw",
+      "Heritage Textile Panel"
+    ],
+    description: "A colourful textile inspired by Ecuadorian weaving traditions and geometric patterns.",
+    base_price: 29.00,
+    price_step: 3.25,
+    tags: ["Handmade", "Limited Edition", "Home Decor", "Gift"]
+  },
+  "Home Decor" => {
+    products: [
+      "Botanical Wall Print",
+      "Hand-Painted Ceramic Vase",
+      "Hummingbird Cushion",
+      "Volcanic Landscape Print",
+      "Artisan Candle Holder",
+      "Decorative Serving Tray",
+      "Ceramic Flower Pot",
+      "Mountain Wall Hanging",
+      "Painted Coffee Mug",
+      "Geometric Art Print",
+      "Handcrafted Picture Frame",
+      "Decorative Storage Basket",
+      "Tropical Leaf Poster",
+      "Limited Edition Wall Art",
+      "Artisan Table Centrepiece"
+    ],
+    description: "A decorative home accent influenced by Ecuadorian landscapes, plants, and artisan design.",
+    base_price: 22.00,
+    price_step: 2.50,
+    tags: ["Home Decor", "Handmade", "Gift", "New Arrival"]
+  },
+  "Crafts" => {
+    products: [
+      "Tagua Bead Bracelet",
+      "Artisan Keychain",
+      "Painted Wooden Ornament",
+      "Handmade Coin Purse",
+      "Tagua Drop Earrings",
+      "Woven Friendship Bracelet",
+      "Ceramic Animal Figure",
+      "Artisan Bookmark",
+      "Hand-Painted Jewellery Box",
+      "Tagua Pendant Necklace",
+      "Miniature Woven Basket",
+      "Decorative Travel Pouch",
+      "Handcrafted Desk Ornament",
+      "Limited Artisan Brooch",
+      "Traditional Craft Collection"
+    ],
+    description: "A handcrafted accessory made with materials and techniques associated with Ecuadorian artisans.",
+    base_price: 16.00,
+    price_step: 1.90,
+    tags: ["Handmade", "Fair Trade", "Gift", "Limited Edition"]
+  },
+  "Gift Boxes" => {
+    products: [
+      "Coffee and Cacao Gift Box",
+      "Artisan Breakfast Box",
+      "Chocolate Tasting Collection",
+      "Ecuadorian Welcome Box",
+      "Coffee Lover Gift Set",
+      "Handmade Artisan Box",
+      "Highland Comfort Collection",
+      "Cacao Celebration Box",
+      "Home Decor Gift Set",
+      "Taste of Ecuador Box",
+      "Premium Coffee Collection",
+      "Artisan Discovery Set",
+      "Holiday Cacao Box",
+      "Limited Ecuador Collection",
+      "Quilla Alma Signature Box"
+    ],
+    description: "A curated collection of Ecuadorian-inspired products prepared for gifting and celebrations.",
+    base_price: 48.00,
+    price_step: 3.50,
+    tags: ["Gift", "Limited Edition", "New Arrival", "Fair Trade"]
+  }
+}
+
+catalog_blueprints.each do |category_name, blueprint|
+  category = Category.find_by!(name: category_name)
+
+  blueprint[:products].each_with_index do |product_type, index|
+    name = "#{locations[index]} #{product_type}"
+    price = (blueprint[:base_price] + (index * blueprint[:price_step])).round(2)
+    on_sale = (index % 5).zero?
+
+    product = Product.find_or_initialize_by(name: name)
+
+    product.assign_attributes(
+      category: category,
+      description: "#{product_type} inspired by #{locations[index]}, Ecuador. " \
+                   "#{blueprint[:description]}",
+      price: price,
+      stock_quantity: 8 + ((index * 3) % 25),
+      on_sale: on_sale,
+      sale_price: on_sale ? (price * 0.85).round(2) : nil
+    )
+
+    product.save!
+
+    # Rotates relevant tags while keeping repeated seeds idempotent.
+    selected_tags = [
+      blueprint[:tags][index % blueprint[:tags].length],
+      blueprint[:tags][(index + 1) % blueprint[:tags].length]
+    ]
+
+    product.tags = Tag.where(name: selected_tags)
+  end
+end
+
+raise "The catalog must contain at least 100 products." if Product.count < 100
+
 puts "Admin users: #{AdminUser.count}"
 puts "Categories: #{Category.count}"
 puts "Products: #{Product.count}"
