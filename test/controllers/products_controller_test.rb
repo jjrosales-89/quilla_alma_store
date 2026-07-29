@@ -79,4 +79,20 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".product-card", count: 1
   end
+
+  test "displays location-based product breadcrumbs" do
+    product = products(:coffee)
+
+    get product_url(product)
+
+    assert_response :success
+
+    assert_select ".breadcrumbs" do
+      assert_select "a[href=?]", root_path, text: "Home"
+      assert_select "a[href=?]",
+                    category_path(product.category),
+                    text: product.category.name
+      assert_select "span", text: product.name
+    end
+  end
 end
