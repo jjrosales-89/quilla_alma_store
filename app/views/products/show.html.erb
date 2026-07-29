@@ -3,6 +3,11 @@
 <nav class="breadcrumbs" aria-label="Breadcrumb">
   <%= link_to "Home", root_path %>
   <span aria-hidden="true">/</span>
+
+  <%= link_to @product.category.name,
+              category_path(@product.category) %>
+
+  <span aria-hidden="true">/</span>
   <span><%= @product.name %></span>
 </nav>
 

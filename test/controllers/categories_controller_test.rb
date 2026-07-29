@@ -17,8 +17,26 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     get category_url(category)
 
     assert_response :success
+
+    assert_select ".breadcrumbs" do
+      assert_select "a[href=?]", root_path, text: "Home"
+      assert_select "a[href=?]", categories_path, text: "Categories"
+      assert_select "span", text: category.name
+    end
+
     assert_select "h1", category.name
     assert_select "a", text: products(:coffee).name
     assert_select "a", text: products(:throw).name, count: 0
+  end
+
+  test "displays breadcrumbs on the category index" do
+    get categories_url
+
+    assert_response :success
+
+    assert_select ".breadcrumbs" do
+      assert_select "a[href=?]", root_path, text: "Home"
+      assert_select "span", text: "Categories"
+    end
   end
 end
