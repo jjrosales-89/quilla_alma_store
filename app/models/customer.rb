@@ -46,6 +46,31 @@ class Customer < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def to_s
+    "#{full_name} (#{email})"
+  end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[
+      address_line_1
+      address_line_2
+      city
+      created_at
+      email
+      first_name
+      id
+      last_name
+      phone_number
+      postal_code
+      province_id
+      updated_at
+    ]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[orders province]
+  end
+
   private
 
   def normalize_postal_code

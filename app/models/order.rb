@@ -34,4 +34,25 @@ class Order < ApplicationRecord
   def placed?
     placed_at.present?
   end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[
+      created_at
+      customer_email
+      customer_id
+      customer_name
+      id
+      placed_at
+      province_code
+      status
+      subtotal
+      total
+      updated_at
+    ]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[customer order_items]
+  end
+
 end
