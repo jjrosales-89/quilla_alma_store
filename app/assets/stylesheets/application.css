@@ -53,6 +53,24 @@ a {
   text-decoration: none;
 }
 
+.site-header nav form {
+  margin: 0;
+}
+
+.nav-button {
+  padding: 0;
+  border: 0;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.nav-button:hover,
+.site-header nav a:hover {
+  color: var(--accent);
+}
+
 .brand {
   color: var(--accent);
   font-size: 1.5rem;
@@ -450,6 +468,10 @@ a {
     align-items: flex-start;
     flex-direction: column;
   }
+
+.site-header nav {
+  flex-wrap: wrap;
+}
 
   .cart-item {
   grid-template-columns: 1fr;

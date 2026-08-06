@@ -1,0 +1,41 @@
+manitoba_order:
+  customer: demo_customer
+  status: pending
+  customer_name: Demo Customer
+  customer_email: customer@example.com
+  address_line_1: 123 Main Street
+  address_line_2:
+  city: Winnipeg
+  province_name: Manitoba
+  province_code: MB
+  postal_code: R1R 0V8
+  subtotal: 37.90
+  gst_rate: 0.05
+  pst_rate: 0.07
+  hst_rate: 0
+  gst_amount: 1.90
+  pst_amount: 2.65
+  hst_amount: 0
+  total: 42.45
+  placed_at: 2026-08-05 12:00:00
+
+ontario_order:
+  customer: ontario_customer
+  status: paid
+  customer_name: Ontario Customer
+  customer_email: ontario@example.com
+  address_line_1: 456 King Street
+  address_line_2:
+  city: Toronto
+  province_name: Ontario
+  province_code: ON
+  postal_code: M5V 1A1
+  subtotal: 42.00
+  gst_rate: 0
+  pst_rate: 0
+  hst_rate: 0.13
+  gst_amount: 0
+  pst_amount: 0
+  hst_amount: 5.46
+  total: 47.46
+  placed_at: 2026-08-05 13:00:00

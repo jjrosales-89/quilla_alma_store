@@ -1,13 +1,38 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
-  # Makes the cart count available in layouts and views.
+  before_action :configure_permitted_parameters,
+                if: :devise_controller?
+
   helper_method :cart_item_count
+
+  protected
+
+    def configure_permitted_parameters
+      customer_fields = [
+        :first_name,
+        :last_name,
+        :address_line_1,
+        :address_line_2,
+        :city,
+        :postal_code,
+        :phone_number,
+        :province_id
+      ]
+
+      devise_parameter_sanitizer.permit(
+        :sign_up,
+        keys: customer_fields
+      )
+
+      devise_parameter_sanitizer.permit(
+        :account_update,
+        keys: customer_fields
+      )
+    end
 
   private
 
-    # Stores product IDs and quantities in the user's session.
     def cart
       session[:cart] ||= {}
     end

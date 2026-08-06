@@ -1,0 +1,15 @@
+coffee_items:
+  order: manitoba_order
+  product: coffee
+  product_name: Test Ecuadorian Coffee
+  unit_price: 18.95
+  quantity: 2
+  line_total: 37.90
+
+woven_throw:
+  order: ontario_order
+  product: throw
+  product_name: Test Woven Throw
+  unit_price: 42.00
+  quantity: 1
+  line_total: 42.00

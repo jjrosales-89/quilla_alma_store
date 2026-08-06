@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_16_233935) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_05_204052) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -73,6 +73,67 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_16_233935) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "address_line_1", null: false
+    t.string "address_line_2"
+    t.string "city", null: false
+    t.string "postal_code", null: false
+    t.string "phone_number"
+    t.integer "province_id", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_customers_on_email", unique: true
+    t.index ["province_id"], name: "index_customers_on_province_id"
+    t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "product_id"
+    t.string "product_name", null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "line_total", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.string "status", default: "pending", null: false
+    t.string "customer_name", null: false
+    t.string "customer_email", null: false
+    t.string "address_line_1", null: false
+    t.string "address_line_2"
+    t.string "city", null: false
+    t.string "province_name", null: false
+    t.string "province_code", null: false
+    t.string "postal_code", null: false
+    t.decimal "subtotal", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "gst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "pst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "hst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "gst_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "pst_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "hst_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "total", precision: 10, scale: 2, default: "0.0", null: false
+    t.datetime "placed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.index ["placed_at"], name: "index_orders_on_placed_at"
+    t.index ["status"], name: "index_orders_on_status"
+  end
+
   create_table "product_tags", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "tag_id", null: false
@@ -97,6 +158,18 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_16_233935) do
     t.index ["name"], name: "index_products_on_name"
   end
 
+  create_table "provinces", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.decimal "gst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "pst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "hst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_provinces_on_code", unique: true
+    t.index ["name"], name: "index_provinces_on_name", unique: true
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -106,6 +179,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_16_233935) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "customers", "provinces"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products", on_delete: :nullify
+  add_foreign_key "orders", "customers"
   add_foreign_key "product_tags", "products"
   add_foreign_key "product_tags", "tags"
   add_foreign_key "products", "categories"

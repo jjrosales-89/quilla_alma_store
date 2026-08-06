@@ -8,6 +8,10 @@ class Product < ApplicationRecord
 
   has_many :tags, through: :product_tags
 
+  has_many :order_items,
+         dependent: :nullify,
+         inverse_of: :product
+
   validates :name,
             presence: true,
             length: { maximum: 120 }
@@ -35,6 +39,10 @@ class Product < ApplicationRecord
   validate :sale_price_requirements
 
   validate :acceptable_image
+
+  def current_price
+    on_sale? ? sale_price : price
+  end
 
   private
 

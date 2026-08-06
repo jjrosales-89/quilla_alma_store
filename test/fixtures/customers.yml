@@ -1,0 +1,23 @@
+demo_customer:
+  email: customer@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(Customer, "password123") %>
+  first_name: Demo
+  last_name: Customer
+  address_line_1: 123 Main Street
+  address_line_2:
+  city: Winnipeg
+  postal_code: R1R 0V8
+  phone_number: 204-555-0101
+  province: manitoba
+
+ontario_customer:
+  email: ontario@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(Customer, "password123") %>
+  first_name: Ontario
+  last_name: Customer
+  address_line_1: 456 King Street
+  address_line_2:
+  city: Toronto
+  postal_code: M5V 1A1
+  phone_number: 416-555-0102
+  province: ontario

@@ -1,0 +1,118 @@
+<div class="auth-page">
+  <section class="auth-card">
+    <h1>Create your account</h1>
+
+    <p>
+      Create an account to save your delivery address and complete checkout.
+    </p>
+
+    <%= form_for(
+          resource,
+          as: resource_name,
+          url: registration_path(resource_name)
+        ) do |f| %>
+
+      <%= render "customers/shared/error_messages",
+                 resource: resource %>
+
+      <div class="form-field">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name,
+                         autofocus: true,
+                         autocomplete: "given-name",
+                         required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name,
+                         autocomplete: "family-name",
+                         required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :email %>
+        <%= f.email_field :email,
+                          autocomplete: "email",
+                          required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :phone_number, "Phone number (optional)" %>
+        <%= f.telephone_field :phone_number,
+                              autocomplete: "tel" %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :address_line_1, "Address" %>
+        <%= f.text_field :address_line_1,
+                         autocomplete: "address-line1",
+                         required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :address_line_2,
+                    "Apartment, suite, etc. (optional)" %>
+        <%= f.text_field :address_line_2,
+                         autocomplete: "address-line2" %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :city %>
+        <%= f.text_field :city,
+                         autocomplete: "address-level2",
+                         required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :province_id, "Province or territory" %>
+        <%= f.collection_select(
+              :province_id,
+              Province.order(:name),
+              :id,
+              :name,
+              { prompt: "Select a province or territory" },
+              {
+                required: true,
+                autocomplete: "address-level1"
+              }
+            ) %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :postal_code %>
+        <%= f.text_field :postal_code,
+                         autocomplete: "postal-code",
+                         placeholder: "R3C 0V8",
+                         required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :password %>
+
+        <% if @minimum_password_length %>
+          <small>
+            <%= @minimum_password_length %> characters minimum
+          </small>
+        <% end %>
+
+        <%= f.password_field :password,
+                             autocomplete: "new-password",
+                             required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation,
+                             autocomplete: "new-password",
+                             required: true %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Create account" %>
+      </div>
+    <% end %>
+
+    <%= render "customers/shared/links" %>
+  </section>
+</div>

@@ -1,0 +1,64 @@
+<% content_for :title, "My Orders | Quilla Alma" %>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <%= link_to "Home", root_path %>
+  <span aria-hidden="true">/</span>
+  <span>My Orders</span>
+</nav>
+
+<section class="orders-page">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Purchase history</p>
+      <h1>My Orders</h1>
+    </div>
+
+    <p><%= pluralize(@orders.count, "order") %></p>
+  </div>
+
+  <% if @orders.any? %>
+    <div class="order-list">
+      <% @orders.each do |order| %>
+        <article class="order-card">
+          <div>
+            <p class="eyebrow">
+              <%= order.placed_at.to_date.to_fs(:long) %>
+            </p>
+
+            <h2>
+              <%= link_to "Order ##{order.id}",
+                          order_path(order) %>
+            </h2>
+
+            <p>
+              <%= pluralize(
+                    order.order_items.sum(&:quantity),
+                    "item"
+                  ) %>
+            </p>
+          </div>
+
+          <div>
+            <span class="order-status">
+              <%= order.status.titleize %>
+            </span>
+
+            <strong><%= number_to_currency(order.total) %></strong>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-cart">
+      <h2>You have not placed any orders yet</h2>
+
+      <p>
+        Your completed purchases will appear here.
+      </p>
+
+      <%= link_to "Browse products",
+                  products_path,
+                  class: "button" %>
+    </div>
+  <% end %>
+</section>

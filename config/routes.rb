@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :customers
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -21,6 +22,12 @@ Rails.application.routes.draw do
   delete "cart/items/:product_id",
         to: "carts#destroy",
         as: :remove_cart_item
+
+  resource :checkout,
+            only: %i[show create]
+
+  resources :orders,
+            only: %i[index show]
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

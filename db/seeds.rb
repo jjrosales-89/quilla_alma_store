@@ -7,6 +7,106 @@ admin.password = admin_password
 admin.password_confirmation = admin_password
 admin.save!
 
+provinces = [
+  {
+    name: "Alberta",
+    code: "AB",
+    gst_rate: 0.05,
+    pst_rate: 0,
+    hst_rate: 0
+  },
+  {
+    name: "British Columbia",
+    code: "BC",
+    gst_rate: 0.05,
+    pst_rate: 0.07,
+    hst_rate: 0
+  },
+  {
+    name: "Manitoba",
+    code: "MB",
+    gst_rate: 0.05,
+    pst_rate: 0.07,
+    hst_rate: 0
+  },
+  {
+    name: "New Brunswick",
+    code: "NB",
+    gst_rate: 0,
+    pst_rate: 0,
+    hst_rate: 0.15
+  },
+  {
+    name: "Newfoundland and Labrador",
+    code: "NL",
+    gst_rate: 0,
+    pst_rate: 0,
+    hst_rate: 0.15
+  },
+  {
+    name: "Nova Scotia",
+    code: "NS",
+    gst_rate: 0,
+    pst_rate: 0,
+    hst_rate: 0.14
+  },
+  {
+    name: "Ontario",
+    code: "ON",
+    gst_rate: 0,
+    pst_rate: 0,
+    hst_rate: 0.13
+  },
+  {
+    name: "Prince Edward Island",
+    code: "PE",
+    gst_rate: 0,
+    pst_rate: 0,
+    hst_rate: 0.15
+  },
+  {
+    name: "Quebec",
+    code: "QC",
+    gst_rate: 0.05,
+    pst_rate: 0.09975,
+    hst_rate: 0
+  },
+  {
+    name: "Saskatchewan",
+    code: "SK",
+    gst_rate: 0.05,
+    pst_rate: 0.06,
+    hst_rate: 0
+  },
+  {
+    name: "Northwest Territories",
+    code: "NT",
+    gst_rate: 0.05,
+    pst_rate: 0,
+    hst_rate: 0
+  },
+  {
+    name: "Nunavut",
+    code: "NU",
+    gst_rate: 0.05,
+    pst_rate: 0,
+    hst_rate: 0
+  },
+  {
+    name: "Yukon",
+    code: "YT",
+    gst_rate: 0.05,
+    pst_rate: 0,
+    hst_rate: 0
+  }
+]
+
+provinces.each do |attributes|
+  province = Province.find_or_initialize_by(code: attributes[:code])
+  province.assign_attributes(attributes)
+  province.save!
+end
+
 categories = {
   "Coffee" => "Ecuadorian-inspired whole-bean and ground coffee.",
   "Chocolate" => "Chocolate and cacao products made with Ecuadorian cacao.",
@@ -352,6 +452,7 @@ end
 raise "The catalog must contain at least 100 products." if Product.count < 100
 
 puts "Admin users: #{AdminUser.count}"
+puts "Provinces and territories: #{Province.count}"
 puts "Categories: #{Category.count}"
 puts "Products: #{Product.count}"
 puts "Tags: #{Tag.count}"

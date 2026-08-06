@@ -23,7 +23,7 @@
         <% quantity = item[:quantity] %>
 
         <%# Uses the sale price when the product is discounted. %>
-        <% unit_price = product.on_sale? ? product.sale_price : product.price %>
+        <% unit_price = product.current_price %>
 
         <article class="cart-item">
           <% if product.image.attached? %>
@@ -87,13 +87,33 @@
     <%# Calculates the complete cart total from current product prices. %>
     <% cart_total = @cart_items.sum do |item| %>
       <% product = item[:product] %>
-      <% unit_price = product.on_sale? ? product.sale_price : product.price %>
+      <% unit_price = product.current_price %>
       <% unit_price * item[:quantity] %>
     <% end %>
 
     <div class="cart-summary">
-      <p>Estimated total</p>
-      <strong><%= number_to_currency(cart_total) %></strong>
+      <div>
+        <p>Estimated total</p>
+        <strong><%= number_to_currency(cart_total) %></strong>
+      </div>
+
+      <div class="cart-summary__checkout">
+        <% if customer_signed_in? %>
+          <%= link_to "Proceed to checkout",
+                      checkout_path,
+                      class: "button" %>
+        <% else %>
+          <%= link_to "Log in to checkout",
+                      new_customer_session_path,
+                      class: "button" %>
+
+          <p>
+            New customer?
+            <%= link_to "Create an account",
+                        new_customer_registration_path %>
+          </p>
+        <% end %>
+      </div>
     </div>
   <% else %>
     <div class="empty-cart">

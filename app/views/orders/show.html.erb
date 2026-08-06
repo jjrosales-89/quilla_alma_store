@@ -1,0 +1,133 @@
+<% content_for :title, "Order ##{@order.id} | Quilla Alma" %>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <%= link_to "Home", root_path %>
+  <span aria-hidden="true">/</span>
+  <%= link_to "My orders", orders_path %>
+  <span aria-hidden="true">/</span>
+  <span>Order #<%= @order.id %></span>
+</nav>
+
+<section class="order-page">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Order confirmed</p>
+      <h1>Thank you for your order</h1>
+    </div>
+
+    <span class="order-status">
+      <%= @order.status.titleize %>
+    </span>
+  </div>
+
+  <p>
+    Order <strong>#<%= @order.id %></strong> was placed on
+    <%= @order.placed_at.to_fs(:long) %>.
+  </p>
+
+  <div class="checkout-layout">
+    <section class="checkout-details">
+      <h2>Delivery information</h2>
+
+      <address>
+        <strong><%= @order.customer_name %></strong><br>
+        <%= @order.address_line_1 %><br>
+
+        <% if @order.address_line_2.present? %>
+          <%= @order.address_line_2 %><br>
+        <% end %>
+
+        <%= @order.city %>,
+        <%= @order.province_code %>
+        <%= @order.postal_code %><br>
+        <%= @order.customer_email %>
+      </address>
+    </section>
+
+    <section class="checkout-summary">
+      <h2>Order summary</h2>
+
+      <% @order.order_items.each do |item| %>
+        <div class="checkout-item">
+          <div>
+            <strong><%= item.product_name %></strong>
+
+            <p>
+              <%= pluralize(item.quantity, "item") %>
+              × <%= number_to_currency(item.unit_price) %>
+            </p>
+          </div>
+
+          <span><%= number_to_currency(item.line_total) %></span>
+        </div>
+      <% end %>
+
+      <dl class="checkout-totals">
+        <div>
+          <dt>Subtotal</dt>
+          <dd><%= number_to_currency(@order.subtotal) %></dd>
+        </div>
+
+        <% if @order.gst_amount.positive? %>
+          <div>
+            <dt>
+              GST
+              (<%= number_to_percentage(
+                    @order.gst_rate * 100,
+                    precision: 2,
+                    strip_insignificant_zeros: true
+                  ) %>)
+            </dt>
+
+            <dd><%= number_to_currency(@order.gst_amount) %></dd>
+          </div>
+        <% end %>
+
+        <% if @order.pst_amount.positive? %>
+          <div>
+            <dt>
+              PST
+              (<%= number_to_percentage(
+                    @order.pst_rate * 100,
+                    precision: 3,
+                    strip_insignificant_zeros: true
+                  ) %>)
+            </dt>
+
+            <dd><%= number_to_currency(@order.pst_amount) %></dd>
+          </div>
+        <% end %>
+
+        <% if @order.hst_amount.positive? %>
+          <div>
+            <dt>
+              HST
+              (<%= number_to_percentage(
+                    @order.hst_rate * 100,
+                    precision: 2,
+                    strip_insignificant_zeros: true
+                  ) %>)
+            </dt>
+
+            <dd><%= number_to_currency(@order.hst_amount) %></dd>
+          </div>
+        <% end %>
+
+        <div class="checkout-total">
+          <dt>Total</dt>
+          <dd><%= number_to_currency(@order.total) %></dd>
+        </div>
+      </dl>
+    </section>
+  </div>
+
+  <div class="form-actions">
+    <%= link_to "View all orders",
+                orders_path,
+                class: "button" %>
+
+    <%= link_to "Continue shopping",
+                products_path,
+                class: "button" %>
+  </div>
+</section>

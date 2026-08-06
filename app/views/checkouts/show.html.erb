@@ -1,0 +1,104 @@
+<section class="checkout-page">
+  <h1>Checkout</h1>
+
+  <div class="checkout-layout">
+    <section class="checkout-details">
+      <h2>Delivery information</h2>
+
+      <address>
+        <strong><%= current_customer.full_name %></strong><br>
+        <%= current_customer.address_line_1 %><br>
+
+        <% if current_customer.address_line_2.present? %>
+          <%= current_customer.address_line_2 %><br>
+        <% end %>
+
+        <%= current_customer.city %>,
+        <%= current_customer.province.code %>
+        <%= current_customer.postal_code %><br>
+        <%= current_customer.email %>
+      </address>
+
+      <%= link_to "Edit account and address",
+                  edit_customer_registration_path %>
+    </section>
+
+    <section class="checkout-summary">
+      <h2>Order summary</h2>
+
+      <% @cart_items.each do |item| %>
+        <div class="checkout-item">
+          <div>
+            <strong><%= item[:product].name %></strong>
+            <p>Quantity: <%= item[:quantity] %></p>
+          </div>
+
+          <span>
+            <%= number_to_currency(item[:line_total]) %>
+          </span>
+        </div>
+      <% end %>
+
+      <dl class="checkout-totals">
+        <div>
+          <dt>Subtotal</dt>
+          <dd><%= number_to_currency(@subtotal) %></dd>
+        </div>
+
+        <% if @gst_amount.positive? %>
+          <div>
+            <dt>
+              GST
+              (<%= number_to_percentage(
+                    current_customer.province.gst_rate * 100,
+                    precision: 2,
+                    strip_insignificant_zeros: true
+                  ) %>)
+            </dt>
+            <dd><%= number_to_currency(@gst_amount) %></dd>
+          </div>
+        <% end %>
+
+        <% if @pst_amount.positive? %>
+          <div>
+            <dt>
+              PST
+              (<%= number_to_percentage(
+                    current_customer.province.pst_rate * 100,
+                    precision: 3,
+                    strip_insignificant_zeros: true
+                  ) %>)
+            </dt>
+            <dd><%= number_to_currency(@pst_amount) %></dd>
+          </div>
+        <% end %>
+
+        <% if @hst_amount.positive? %>
+          <div>
+            <dt>
+              HST
+              (<%= number_to_percentage(
+                    current_customer.province.hst_rate * 100,
+                    precision: 2,
+                    strip_insignificant_zeros: true
+                  ) %>)
+            </dt>
+            <dd><%= number_to_currency(@hst_amount) %></dd>
+          </div>
+        <% end %>
+
+        <div class="checkout-total">
+          <dt>Total</dt>
+          <dd><%= number_to_currency(@total) %></dd>
+        </div>
+      </dl>
+
+      <%= button_to "Place order",
+                    checkout_path,
+                    method: :post,
+                    class: "primary-button" %>
+
+      <%= link_to "Return to cart", cart_path %>
+    </section>
+  </div>
+</section>
