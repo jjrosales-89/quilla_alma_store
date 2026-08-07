@@ -8,7 +8,7 @@ class StripeCheckoutSessionCreator
   def call
     checkout_session = Stripe::Checkout::Session.create(
       mode: "payment",
-      payment_method_types: ["card"],
+      payment_method_types: [ "card" ],
       customer_email: @order.customer_email,
       client_reference_id: @order.id.to_s,
       metadata: {
@@ -54,9 +54,9 @@ class StripeCheckoutSessionCreator
 
   def tax_line_items
     [
-      ["GST", @order.gst_amount],
-      ["PST", @order.pst_amount],
-      ["HST", @order.hst_amount]
+      [ "GST", @order.gst_amount ],
+      [ "PST", @order.pst_amount ],
+      [ "HST", @order.hst_amount ]
     ].filter_map do |name, amount|
       next unless amount.positive?
 

@@ -137,7 +137,7 @@ ActiveAdmin.register Order do
       f.input :status,
               as: :select,
               collection: Order::STATUSES.map {
-                |status| [status.titleize, status]
+                |status| [ status.titleize, status ]
               },
               include_blank: false
     end

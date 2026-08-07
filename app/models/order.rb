@@ -77,5 +77,4 @@ class Order < ApplicationRecord
   def self.ransackable_associations(_auth_object = nil)
     %w[customer order_items]
   end
-
 end

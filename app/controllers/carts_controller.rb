@@ -35,7 +35,7 @@ class CartsController < ApplicationController
       return
     end
 
-    quantity_to_add = [requested_quantity, available_quantity].min
+    quantity_to_add = [ requested_quantity, available_quantity ].min
 
     cart[product.id.to_s] = current_quantity + quantity_to_add
     session[:cart] = cart
@@ -68,7 +68,7 @@ class CartsController < ApplicationController
     end
 
     requested_quantity = normalized_quantity
-    updated_quantity = [requested_quantity, product.stock_quantity].min
+    updated_quantity = [ requested_quantity, product.stock_quantity ].min
 
     cart[product.id.to_s] = updated_quantity
     session[:cart] = cart
@@ -97,6 +97,6 @@ class CartsController < ApplicationController
 
     # Converts missing, zero, or negative values to a minimum of one.
     def normalized_quantity
-      [params.fetch(:quantity, 1).to_i, 1].max
+      [ params.fetch(:quantity, 1).to_i, 1 ].max
     end
 end
