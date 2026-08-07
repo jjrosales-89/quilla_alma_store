@@ -20,7 +20,9 @@
 
   <% if @products.any? %>
     <div class="product-grid">
-      <%= render @products %>
+      <%= render partial: "products/product",
+                collection: @products,
+                as: :product %>
     </div>
 
     <%= paginate @products %>
