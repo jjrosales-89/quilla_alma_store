@@ -96,7 +96,8 @@
       <%= button_to "Place order",
                     checkout_path,
                     method: :post,
-                    class: "primary-button" %>
+                    class: "primary-button",
+                    data: { turbo: false } %>
 
       <%= link_to "Return to cart", cart_path %>
     </section>

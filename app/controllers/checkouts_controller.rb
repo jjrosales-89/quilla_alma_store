@@ -1,6 +1,7 @@
 class CheckoutsController < ApplicationController
   before_action :authenticate_customer!
-  before_action :load_cart_items
+  before_action :load_cart_items,
+                only: %i[show create]
 
   def show
     redirect_to cart_path, alert: "Your cart is empty." if @cart_items.empty?
@@ -19,13 +20,52 @@ class CheckoutsController < ApplicationController
       create_order_items(order)
     end
 
-    session[:cart] = {}
+    checkout_session = StripeCheckoutSessionCreator.new(
+      order: order,
+success_url: "#{checkout_success_url}?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: checkout_cancel_url(
+        order_id: order.id
+      )
+    ).call
 
-    redirect_to order_path(order),
-                notice: "Your order was placed successfully."
+    redirect_to checkout_session.url,
+                allow_other_host: true,
+                status: :see_other
+
   rescue ActiveRecord::RecordInvalid => error
     redirect_to checkout_path,
                 alert: "Checkout could not be completed: #{error.record.errors.full_messages.to_sentence}"
+  end
+
+  def success
+    checkout_session =
+      Stripe::Checkout::Session.retrieve(params[:session_id])
+
+    order = current_customer.orders.find_by!(
+      stripe_checkout_session_id: checkout_session.id
+    )
+
+    if checkout_session.payment_status == "paid"
+      order.mark_as_paid!(
+        payment_intent_id: checkout_session.payment_intent.to_s
+      )
+
+      session[:cart] = {}
+
+      redirect_to order_path(order),
+                  notice: "Payment completed successfully."
+    else
+      redirect_to order_path(order),
+                  alert: "Payment confirmation is still processing."
+    end
+  rescue ActiveRecord::RecordNotFound, Stripe::StripeError
+    redirect_to orders_path,
+                alert: "We could not verify the Stripe payment."
+  end
+
+  def cancel
+    redirect_to checkout_path,
+                alert: "Payment was cancelled. Your cart has not been changed."
   end
 
   private
