@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_05_204052) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_06_181935) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -129,9 +129,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_05_204052) do
     t.datetime "placed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_checkout_session_id"
+    t.string "stripe_payment_intent_id"
+    t.datetime "paid_at"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["placed_at"], name: "index_orders_on_placed_at"
     t.index ["status"], name: "index_orders_on_status"
+    t.index ["stripe_checkout_session_id"], name: "index_orders_on_stripe_checkout_session_id", unique: true
+    t.index ["stripe_payment_intent_id"], name: "index_orders_on_stripe_payment_intent_id", unique: true
   end
 
   create_table "product_tags", force: :cascade do |t|

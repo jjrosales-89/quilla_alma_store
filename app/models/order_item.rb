@@ -36,5 +36,4 @@ class OrderItem < ApplicationRecord
   def self.ransackable_associations(_auth_object = nil)
     %w[order product]
   end
-
 end

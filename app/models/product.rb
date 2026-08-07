@@ -30,7 +30,7 @@ class Product < ApplicationRecord
             }
 
   # Ensure the boolean field always contains a valid true or false value.
-  validates :on_sale, inclusion: { in: [true, false] }
+  validates :on_sale, inclusion: { in: [ true, false ] }
 
   validates :sale_price,
             numericality: { greater_than: 0 },
@@ -57,7 +57,7 @@ class Product < ApplicationRecord
 
     if image.blob.byte_size > 5.megabytes
       errors.add(:image, "must be smaller than 5 MB")
-  end
+    end
 end
 
   def sale_price_requirements

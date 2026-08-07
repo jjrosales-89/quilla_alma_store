@@ -83,7 +83,7 @@ ActiveAdmin.register Product do
     f.inputs "Product details" do
       f.input(
         :category,
-        collection: Category.order(:name).map { |category| [category.name, category.id] },
+        collection: Category.order(:name).map { |category| [ category.name, category.id ] },
         include_blank: false
       )
 
@@ -114,7 +114,7 @@ ActiveAdmin.register Product do
       f.input(
         :tags,
         as: :check_boxes,
-        collection: Tag.order(:name).map { |tag| [tag.name, tag.id] }
+        collection: Tag.order(:name).map { |tag| [ tag.name, tag.id ] }
       )
     end
 

@@ -145,7 +145,7 @@ products = [
     stock_quantity: 24,
     on_sale: false,
     sale_price: nil,
-    tags: ["Fair Trade", "Coffee Lover", "Gift"]
+    tags: [ "Fair Trade", "Coffee Lover", "Gift" ]
   },
   {
     name: "Loja Dark Roast Coffee",
@@ -155,7 +155,7 @@ products = [
     stock_quantity: 18,
     on_sale: true,
     sale_price: 16.95,
-    tags: ["Fair Trade", "Coffee Lover"]
+    tags: [ "Fair Trade", "Coffee Lover" ]
   },
   {
     name: "Ecuadorian Cacao 70% Bar",
@@ -165,7 +165,7 @@ products = [
     stock_quantity: 40,
     on_sale: false,
     sale_price: nil,
-    tags: ["Handmade", "Fair Trade", "Gift"]
+    tags: [ "Handmade", "Fair Trade", "Gift" ]
   },
   {
     name: "Cacao Nibs Gift Jar",
@@ -175,7 +175,7 @@ products = [
     stock_quantity: 20,
     on_sale: false,
     sale_price: nil,
-    tags: ["Fair Trade", "Gift", "New Arrival"]
+    tags: [ "Fair Trade", "Gift", "New Arrival" ]
   },
   {
     name: "Otavalo Woven Table Runner",
@@ -185,7 +185,7 @@ products = [
     stock_quantity: 8,
     on_sale: false,
     sale_price: nil,
-    tags: ["Handmade", "Limited Edition", "Home Decor"]
+    tags: [ "Handmade", "Limited Edition", "Home Decor" ]
   },
   {
     name: "Cotopaxi Wool Throw",
@@ -195,7 +195,7 @@ products = [
     stock_quantity: 6,
     on_sale: true,
     sale_price: 74.00,
-    tags: ["Handmade", "Limited Edition", "Home Decor"]
+    tags: [ "Handmade", "Limited Edition", "Home Decor" ]
   },
   {
     name: "Tagua Palm Seed Necklace",
@@ -205,7 +205,7 @@ products = [
     stock_quantity: 14,
     on_sale: false,
     sale_price: nil,
-    tags: ["Handmade", "Fair Trade", "Gift"]
+    tags: [ "Handmade", "Fair Trade", "Gift" ]
   },
   {
     name: "Hand-Painted Hummingbird Mug",
@@ -215,7 +215,7 @@ products = [
     stock_quantity: 12,
     on_sale: false,
     sale_price: nil,
-    tags: ["Handmade", "Home Decor", "Gift"]
+    tags: [ "Handmade", "Home Decor", "Gift" ]
   },
   {
     name: "Quito Botanical Art Print",
@@ -225,7 +225,7 @@ products = [
     stock_quantity: 25,
     on_sale: false,
     sale_price: nil,
-    tags: ["Home Decor", "Gift", "New Arrival"]
+    tags: [ "Home Decor", "Gift", "New Arrival" ]
   },
   {
     name: "Ecuadorian Discovery Gift Box",
@@ -235,7 +235,7 @@ products = [
     stock_quantity: 10,
     on_sale: false,
     sale_price: nil,
-    tags: ["Gift", "Limited Edition", "Coffee Lover"]
+    tags: [ "Gift", "Limited Edition", "Coffee Lover" ]
   }
 ]
 
@@ -298,7 +298,7 @@ catalog_blueprints = {
     description: "Ecuadorian coffee with a balanced aroma and distinctive regional character.",
     base_price: 17.50,
     price_step: 0.85,
-    tags: ["Fair Trade", "Coffee Lover", "Gift", "New Arrival"]
+    tags: [ "Fair Trade", "Coffee Lover", "Gift", "New Arrival" ]
   },
   "Chocolate" => {
     products: [
@@ -321,7 +321,7 @@ catalog_blueprints = {
     description: "Small-batch chocolate made with Ecuadorian cacao and carefully selected ingredients.",
     base_price: 8.25,
     price_step: 0.70,
-    tags: ["Handmade", "Fair Trade", "Gift", "Limited Edition"]
+    tags: [ "Handmade", "Fair Trade", "Gift", "Limited Edition" ]
   },
   "Textiles" => {
     products: [
@@ -344,7 +344,7 @@ catalog_blueprints = {
     description: "A colourful textile inspired by Ecuadorian weaving traditions and geometric patterns.",
     base_price: 29.00,
     price_step: 3.25,
-    tags: ["Handmade", "Limited Edition", "Home Decor", "Gift"]
+    tags: [ "Handmade", "Limited Edition", "Home Decor", "Gift" ]
   },
   "Home Decor" => {
     products: [
@@ -367,7 +367,7 @@ catalog_blueprints = {
     description: "A decorative home accent influenced by Ecuadorian landscapes, plants, and artisan design.",
     base_price: 22.00,
     price_step: 2.50,
-    tags: ["Home Decor", "Handmade", "Gift", "New Arrival"]
+    tags: [ "Home Decor", "Handmade", "Gift", "New Arrival" ]
   },
   "Crafts" => {
     products: [
@@ -390,7 +390,7 @@ catalog_blueprints = {
     description: "A handcrafted accessory made with materials and techniques associated with Ecuadorian artisans.",
     base_price: 16.00,
     price_step: 1.90,
-    tags: ["Handmade", "Fair Trade", "Gift", "Limited Edition"]
+    tags: [ "Handmade", "Fair Trade", "Gift", "Limited Edition" ]
   },
   "Gift Boxes" => {
     products: [
@@ -413,7 +413,7 @@ catalog_blueprints = {
     description: "A curated collection of Ecuadorian-inspired products prepared for gifting and celebrations.",
     base_price: 48.00,
     price_step: 3.50,
-    tags: ["Gift", "Limited Edition", "New Arrival", "Fair Trade"]
+    tags: [ "Gift", "Limited Edition", "New Arrival", "Fair Trade" ]
   }
 }
 
