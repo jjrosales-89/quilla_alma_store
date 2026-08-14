@@ -111,6 +111,49 @@ Open the application in a browser:
 http://localhost:3000
 ```
 
+## Docker
+
+Docker Desktop must be running with WSL integration enabled.
+
+Build the image:
+
+```bash
+docker build -t quilla-alma-store .
+```
+
+To reuse the current local database and Active Storage image attachments:
+
+```bash
+cp storage/development.sqlite3 storage/production.sqlite3
+```
+
+For Stripe testing, run the Stripe CLI in a separate terminal:
+
+```bash
+stripe listen --events checkout.session.completed --forward-to localhost:3000/stripe/webhook
+```
+
+Export the Stripe test credentials:
+
+```bash
+export STRIPE_SECRET_KEY="your_test_secret_key"
+export STRIPE_WEBHOOK_SECRET="your_webhook_signing_secret"
+```
+
+Start the container:
+
+```bash
+docker run --rm --name quilla-alma-store -p 3000:3000 -e RAILS_MASTER_KEY="$(cat config/master.key)" -e RAILS_FORCE_SSL=false -e STRIPE_SECRET_KEY -e STRIPE_WEBHOOK_SECRET -v "$(pwd)/storage:/rails/storage" quilla-alma-store
+```
+
+Open the application at:
+
+```text
+http://localhost:3000
+```
+
+The mounted `storage` directory preserves the SQLite database and Active Storage uploads outside the container.
+
 ## Seed Data
 
 The seed file generates sample data for development and demonstration purposes, including:
