@@ -1,42 +1,131 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<% content_for :title, "My Account | Quilla Alma" %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "customers/shared/error_messages", resource: resource %>
+<div class="auth-page auth-page--wide">
+  <section class="auth-card">
+    <p class="eyebrow">Customer account</p>
+    <h1>My account</h1>
 
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+    <p class="auth-card__intro">
+      Update your contact information, delivery address, or password.
+    </p>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+    <%= form_for(
+          resource,
+          as: resource_name,
+          url: registration_path(resource_name),
+          html: { method: :put }
+        ) do |f| %>
 
-  <div class="field">
-    <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-    <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
+      <%= render "customers/shared/error_messages",
+                 resource: resource %>
+
+      <div class="auth-form-grid">
+        <div class="form-field">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name,
+                           autocomplete: "given-name",
+                           required: true %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name,
+                           autocomplete: "family-name",
+                           required: true %>
+        </div>
+
+        <div class="form-field auth-form-grid__full">
+          <%= f.label :email %>
+          <%= f.email_field :email,
+                            autocomplete: "email",
+                            required: true %>
+        </div>
+
+        <div class="form-field auth-form-grid__full">
+          <%= f.label :phone_number, "Phone number (optional)" %>
+          <%= f.telephone_field :phone_number,
+                                autocomplete: "tel" %>
+        </div>
+
+        <div class="form-field auth-form-grid__full">
+          <%= f.label :address_line_1, "Address" %>
+          <%= f.text_field :address_line_1,
+                           autocomplete: "address-line1",
+                           required: true %>
+        </div>
+
+        <div class="form-field auth-form-grid__full">
+          <%= f.label :address_line_2,
+                      "Apartment, suite, etc. (optional)" %>
+          <%= f.text_field :address_line_2,
+                           autocomplete: "address-line2" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :city %>
+          <%= f.text_field :city,
+                           autocomplete: "address-level2",
+                           required: true %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :province_id, "Province or territory" %>
+          <%= f.collection_select(
+                :province_id,
+                Province.order(:name),
+                :id,
+                :name,
+                { prompt: "Select a province or territory" },
+                {
+                  required: true,
+                  autocomplete: "address-level1"
+                }
+              ) %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :postal_code %>
+          <%= f.text_field :postal_code,
+                           autocomplete: "postal-code",
+                           required: true %>
+        </div>
+      </div>
+
+      <div class="auth-password-section">
+        <h2>Change password</h2>
+
+        <p>
+          Leave these fields blank if you do not want to change your password.
+        </p>
+
+        <div class="auth-form-grid">
+          <div class="form-field">
+            <%= f.label :password, "New password" %>
+            <%= f.password_field :password,
+                                 autocomplete: "new-password" %>
+          </div>
+
+          <div class="form-field">
+            <%= f.label :password_confirmation,
+                        "Confirm new password" %>
+            <%= f.password_field :password_confirmation,
+                                 autocomplete: "new-password" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :current_password %>
+        <small>Required to confirm account changes.</small>
+
+        <%= f.password_field :current_password,
+                             autocomplete: "current-password",
+                             required: true %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Save changes" %>
+      </div>
     <% end %>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-    <p><%= f.password_field :current_password, autocomplete: "current-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+  </section>
+</div>

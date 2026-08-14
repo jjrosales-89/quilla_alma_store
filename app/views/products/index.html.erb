@@ -24,14 +24,14 @@
   </div>
 
   <%= form_with url: products_path, method: :get, local: true, class: "catalog-filters" do |form| %>
-    <div>
+    <div class="filter-field filter-field--search">
       <%= form.label :query, "Search products" %>
       <%= form.search_field :query,
                             value: params[:query],
                             placeholder: "Search by name or description" %>
     </div>
 
-    <div>
+    <div class="filter-field">
       <%= form.label :category_id, "Category" %>
       <%= form.collection_select :category_id,
                                 @categories,
@@ -41,24 +41,30 @@
                                   selected: params[:category_id] } %>
     </div>
 
-    <div>
-      <%= form.check_box :on_sale,
-                        { checked: params[:on_sale] == "1" },
-                        "1",
-                        "0" %>
-      <%= form.label :on_sale, "On sale only" %>
+    <div class="filter-toggles">
+      <label class="filter-toggle">
+        <%= form.check_box :on_sale,
+                          { checked: params[:on_sale] == "1" },
+                          "1",
+                          "0" %>
+        <span>On sale only</span>
+      </label>
+
+      <label class="filter-toggle">
+        <%= form.check_box :new_products,
+                          { checked: params[:new_products] == "1" },
+                          "1",
+                          "0" %>
+        <span>New products only</span>
+      </label>
     </div>
 
-    <div>
-      <%= form.check_box :new_products,
-                        { checked: params[:new_products] == "1" },
-                        "1",
-                        "0" %>
-      <%= form.label :new_products, "New products only" %>
-    </div>
+    <%= form.submit "Search and filter",
+                    class: "button catalog-filters__submit" %>
 
-    <%= form.submit "Search and filter" %>
-    <%= link_to "Clear filters", products_path %>
+    <%= link_to "Clear filters",
+                products_path,
+                class: "catalog-filters__clear" %>
   <% end %>
 
   <% if @products.any? %>

@@ -41,6 +41,10 @@
     </p>
 
     <div class="product-card__actions">
+      <%= link_to "View product",
+                  product_path(product),
+                  class: "button button--secondary" %>
+
       <% if product.stock_quantity.positive? %>
         <%= button_to "Add to cart",
                       add_cart_item_path(product),
@@ -49,10 +53,6 @@
                       class: "button",
                       form_class: "product-card__cart-form" %>
       <% end %>
-
-      <%= link_to "View product",
-                  product_path(product),
-                  class: "button button--secondary" %>
     </div>
   </div>
 </article>

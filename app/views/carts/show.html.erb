@@ -26,15 +26,22 @@
         <% unit_price = product.current_price %>
 
         <article class="cart-item">
-          <% if product.image.attached? %>
-            <%= link_to product_path(product) do %>
-              <%= image_tag(
-                    product.image.variant(resize_to_fill: [180, 140]),
-                    class: "cart-item__image",
-                    alt: product.name
-                  ) %>
+
+          <div class="cart-item__media">
+            <% if product.image.attached? %>
+              <%= link_to product_path(product), class: "cart-item__image-link" do %>
+                <%= image_tag(
+                      product.image.variant(resize_to_fill: [360, 270]),
+                      class: "cart-item__image",
+                      alt: product.name
+                    ) %>
+              <% end %>
+            <% else %>
+              <div class="cart-item__placeholder">
+                <span>Image coming soon</span>
+              </div>
             <% end %>
-          <% end %>
+          </div>
 
           <div class="cart-item__details">
             <p class="eyebrow"><%= product.category.name %></p>

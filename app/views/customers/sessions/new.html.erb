@@ -1,26 +1,49 @@
-<h2>Log in</h2>
+<% content_for :title, "Log In | Quilla Alma" %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+<div class="auth-page">
+  <section class="auth-card">
+    <p class="eyebrow">Welcome back</p>
+    <h1>Log in</h1>
 
-  <div class="field">
-    <p><%= f.label :password %></p>
-    <p><%= f.password_field :password, autocomplete: "current-password" %></p>
-  </div>
+    <p class="auth-card__intro">
+      Access your account, saved delivery information, and orders.
+    </p>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <p><%= f.check_box :remember_me %></p>
-      <p><%= f.label :remember_me %></p>
+    <%= form_for(
+          resource,
+          as: resource_name,
+          url: session_path(resource_name)
+        ) do |f| %>
+
+      <div class="form-field">
+        <%= f.label :email %>
+        <%= f.email_field :email,
+                          autofocus: true,
+                          autocomplete: "email",
+                          required: true %>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :password %>
+        <%= f.password_field :password,
+                             autocomplete: "current-password",
+                             required: true %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <label class="auth-checkbox">
+          <%= f.check_box :remember_me %>
+          <span>Remember me</span>
+        </label>
+      <% end %>
+
+      <div class="form-actions">
+        <%= f.submit "Log in" %>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <%= render "customers/shared/links" %>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "customers/shared/links" %>
+  </section>
+</div>
